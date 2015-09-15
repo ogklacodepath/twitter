@@ -306,6 +306,7 @@
                                 </state>
                                 <connections>
                                     <action selector="reply:" destination="Xjg-D4-iew" eventType="touchUpInside" id="xLV-GQ-C2o"/>
+                                    <segue destination="dRN-fp-hi2" kind="show" identifier="inReplyTo" id="V9Z-oJ-ux7"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xJ4-hi-xVo">
@@ -411,5 +412,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="2VL-Ub-342"/>
+        <segue reference="V9Z-oJ-ux7"/>
     </inferredMetricsTieBreakers>
 </document>

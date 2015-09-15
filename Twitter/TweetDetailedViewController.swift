@@ -62,4 +62,11 @@ class TweetDetailedViewController: UIViewController {
         })
     }
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "inReplyTo" {
+            var vc = segue.destinationViewController as! NewTweetViewController
+            vc.inReplyToStatus = tweetId
+        }
+    }
+    
 }

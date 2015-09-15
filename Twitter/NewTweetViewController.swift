@@ -13,6 +13,8 @@ class NewTweetViewController: UIViewController {
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var screenNameLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
+    
+    var inReplyToStatus : String?
 
     
     @IBOutlet weak var newTweetField: UITextView!
@@ -23,7 +25,11 @@ class NewTweetViewController: UIViewController {
         newTweetField.becomeFirstResponder()
     }
     @IBAction func PostNewTweet(sender: UIBarButtonItem) {
-        var params = ["status": newTweetField.text];
+        var params = ["status": newTweetField.text] as NSMutableDictionary;
+        if let inReplyToStatus = inReplyToStatus {
+            params.setValue(inReplyToStatus, forKey: "in_reply_to_status_id")
+        }
+        //in_reply_to_status_id
         TwitterClient.sharedInstance.POST("1.1/statuses/update.json", parameters: params, success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
                 self.performSegueWithIdentifier("afterPost", sender: self)
             }, failure: {
