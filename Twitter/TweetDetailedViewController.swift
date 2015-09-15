@@ -30,8 +30,6 @@ class TweetDetailedViewController: UIViewController {
         nameLabel.text = name
         profileImageView.setImageWithURL(NSURL(string: profileImageUrl!))
         dateLabel.text = createdDate
-        println("Sdsdsdsdsdsd")
-        println(tweetId)
     }
     
     @IBAction func reply(sender: UIButton) {
@@ -41,7 +39,7 @@ class TweetDetailedViewController: UIViewController {
     @IBAction func retweet(sender: UIButton) {
         var params = ["id": tweetId!];
         var url = "statuses/retweet/\(tweetId!).json"
-        TwitterClient.sharedInstance.POST(url, parameters: params, success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
+        TwitterClient.sharedInstance.POST(url, parameters: nil, success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
             println("retweeted")
             }, failure: {
                 (operation: AFHTTPRequestOperation!, error: NSError!) -> Void in
@@ -52,6 +50,16 @@ class TweetDetailedViewController: UIViewController {
     }
     
     @IBAction func favorite(sender: UIButton) {
+        var params = ["id": tweetId!];
+        var url = "/1.1/favorites/create.json"
+        TwitterClient.sharedInstance.POST(url, parameters: params, success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
+            sender.setBackgroundImage(UIImage(named: "donefav"), forState: UIControlState.Normal)
+            }, failure: {
+                (operation: AFHTTPRequestOperation!, error: NSError!) -> Void in
+                println(error)
+                println("could not favorite it")
+                
+        })
     }
     
 }

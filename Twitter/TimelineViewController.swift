@@ -106,7 +106,9 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
             vc.profileImageUrl = tweetObj.user!.profileImageUrl
             vc.tweet = tweetObj.text
             vc.createdDate = tweetObj.createdAtString
-            vc.tweetId = tweetObj.id
+            println("88888888888")
+            println(tweetObj.tweetId)
+            vc.tweetId = tweetObj.tweetId
         }
     }
 

@@ -16,13 +16,13 @@ class Tweet: NSObject{
     var text: String?
     var createdAtString: String?
     var createdAt: NSDate?
-    var id: String?
+    var tweetId: String?
     
     init(dictionary: NSDictionary) {
         user = User(dictionary: dictionary["user"] as! NSDictionary)
         text = dictionary["text"] as? String
         createdAtString = dictionary["created_at"] as? String
-        id = dictionary["id"] as? String
+        tweetId = String(stringInterpolationSegment: dictionary["id"]!) as String
         
         var formatter = NSDateFormatter()
         formatter.dateFormat = "EEE MMM d HH:mm:ss Z y"
@@ -40,7 +40,7 @@ class Tweet: NSObject{
             } else {
                 if (maxDate!.timeIntervalSinceNow < tweet.createdAt!.timeIntervalSinceNow) {
                     maxDate = tweet.createdAt
-                    last_since_id = tweet.id
+                    last_since_id = tweet.tweetId
                 }
             }
             tweets.append(tweet)
