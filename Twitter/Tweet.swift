@@ -34,6 +34,8 @@ class Tweet: NSObject{
         var maxDate: NSDate?
         
         for dictionary in array {
+            /*println(dictionary)
+            println("%%%%%%%%%%%%%%%%")*/
             var tweet = Tweet(dictionary: dictionary as NSDictionary)
             if maxDate == nil {
                 maxDate = tweet.createdAt

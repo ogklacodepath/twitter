@@ -38,9 +38,11 @@ class TweetDetailedViewController: UIViewController {
     
     @IBAction func retweet(sender: UIButton) {
         var params = ["id": tweetId!];
-        var url = "statuses/retweet/\(tweetId!).json"
+        var url = "/1.1/statuses/retweet/\(tweetId!).json"
+        println(url)
         TwitterClient.sharedInstance.POST(url, parameters: nil, success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
-            println("retweeted")
+                println("successfully retweeted")
+                self.performSegueWithIdentifier("afterRetweet", sender: self)
             }, failure: {
                 (operation: AFHTTPRequestOperation!, error: NSError!) -> Void in
                 println(error)
