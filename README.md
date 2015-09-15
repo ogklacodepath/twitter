@@ -30,4 +30,9 @@ Optional
 [ ] Replies should be prefixed with the username and the reply_id should be set when posting the tweet,
 [ ] User can load more tweets once they reach the bottom of the feed using infinite loading similar to the actual Twitter client.
 Walkthrough
-Video Walkthrough
+
+
+
+![Video Walkthrough](twitter.gif)
+
+GIF created using ffmpeg
