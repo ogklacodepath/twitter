@@ -20,7 +20,7 @@ Required
 
 [X] User can tap on a tweet to view it, with controls to retweet, favorite, and reply.
 
-[X] User can retweet, favorite, and reply to the tweet directly from the timeline feed. -- In progress
+[X] User can retweet, favorite, and reply to the tweet directly from the timeline feed.
 Optional
 
 [ ] When composing, you should have a countdown in the upper right for the tweet limit.
