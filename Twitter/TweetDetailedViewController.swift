@@ -38,30 +38,28 @@ class TweetDetailedViewController: UIViewController {
     
     @IBAction func retweet(sender: UIButton) {
         var params = ["id": tweetId!];
-        var url = "/1.1/statuses/retweet/\(tweetId!).json"
-        println(url)
-        TwitterClient.sharedInstance.POST(url, parameters: nil, success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
-                println("successfully retweeted")
+        
+        TwitterClient.sharedInstance.reTweet(params){(response, error) -> () in
+            if (error == nil) {
                 self.performSegueWithIdentifier("afterRetweet", sender: self)
-            }, failure: {
-                (operation: AFHTTPRequestOperation!, error: NSError!) -> Void in
+            } else {
                 println(error)
                 println("Could not save the tweets")
-                
-        })
+            }
+        }
     }
     
     @IBAction func favorite(sender: UIButton) {
         var params = ["id": tweetId!];
-        var url = "/1.1/favorites/create.json"
-        TwitterClient.sharedInstance.POST(url, parameters: params, success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
-            sender.setBackgroundImage(UIImage(named: "donefav"), forState: UIControlState.Normal)
-            }, failure: {
-                (operation: AFHTTPRequestOperation!, error: NSError!) -> Void in
+        TwitterClient.sharedInstance.favorite(params){(response, error) -> () in
+            if (error == nil) {
+                println("successfully favorited")
+                sender.setBackgroundImage(UIImage(named: "donefav"), forState: UIControlState.Normal)
+            } else {
                 println(error)
                 println("could not favorite it")
-                
-        })
+            }
+        }
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {

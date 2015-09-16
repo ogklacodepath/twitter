@@ -30,13 +30,16 @@ class NewTweetViewController: UIViewController {
             params.setValue(inReplyToStatus, forKey: "in_reply_to_status_id")
         }
         //in_reply_to_status_id
-        TwitterClient.sharedInstance.POST("1.1/statuses/update.json", parameters: params, success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
+        
+        TwitterClient.sharedInstance.postNewTweet(params) {(response, error) -> () in
+            if (error == nil) {
                 self.performSegueWithIdentifier("afterPost", sender: self)
-            }, failure: {
-                (operation: AFHTTPRequestOperation!, error: NSError!) -> Void in
+            } else {
                 println(error)
                 println("Could not save the tweets")
-                
-        })
+            }
+        }
+        
+        
     }
 }

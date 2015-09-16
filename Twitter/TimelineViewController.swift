@@ -49,17 +49,17 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
         if let since_id = since_id {
             params.setValue(since_id, forKey: "since_id")
         }
-        TwitterClient.sharedInstance.GET("1.1/statuses/home_timeline.json", parameters: params, success: { (operation: AFHTTPRequestOperation!, response: AnyObject!) -> Void in
-                self.allTweets = Tweet.tweetsWithArray(response as! [NSDictionary])
+        
+        TwitterClient.sharedInstance.fetchTweets(nil) {(tweets, error) -> () in
+            if (error == nil) {
+                self.allTweets = tweets
                 self.timelineTableView.reloadData()
-                self.refreshControl?.endRefreshing()
-            }, failure: {
-                (operation: AFHTTPRequestOperation!, error: NSError!) -> Void in
+            } else {
                 println(error)
                 println("Could not get the tweets")
-                self.refreshControl?.endRefreshing()
-
-        })
+            }
+            self.refreshControl?.endRefreshing()
+        }
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -71,6 +71,8 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
         cell.tweetText.text = tweet.text!
         cell.profileImageView.setImageWithURL(NSURL(string:tweet.user!.profileImageUrl!))
         cell.timeDuration.text = getTimeInterVal(tweet.createdAt!)
+        
+        cell.tweetId = tweet.tweetId
         return cell
     }
     
@@ -106,12 +108,14 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
             vc.profileImageUrl = tweetObj.user!.profileImageUrl
             vc.tweet = tweetObj.text
             vc.createdDate = tweetObj.createdAtString
-            println("88888888888")
-            println(tweetObj.tweetId)
             vc.tweetId = tweetObj.tweetId
+        } else if (segue.identifier == "timelineReplyPost") {
+            var vc = segue.destinationViewController as! NewTweetViewController
+            var indexPath = timelineTableView.indexPathForCell(sender as! UITableViewCell)
+            let tweetObj = allTweets![indexPath!.section] as Tweet
+            vc.inReplyToStatus = tweetObj.tweetId
         }
     }
-
 }
 
 
@@ -123,4 +127,30 @@ class TimelineTableViewCell: UITableViewCell{
     @IBOutlet weak var profileImageView: UIImageView!
     
     @IBOutlet weak var tweetText: UILabel!
+    var tweetId: String?
+    @IBAction func favorite(sender: UIButton) {
+        var params = ["id": tweetId!];
+        TwitterClient.sharedInstance.favorite(params){(response, error) -> () in
+            if (error == nil) {
+                println("successfully favorited")
+                sender.setBackgroundImage(UIImage(named: "donefav"), forState: UIControlState.Normal)
+            } else {
+                println(error)
+                println("could not favorite it")
+            }
+        }
+
+    }
+    @IBAction func reTweet(sender: UIButton) {
+        var params = ["id": tweetId!];
+        
+        TwitterClient.sharedInstance.reTweet(params){(response, error) -> () in
+            if (error == nil) {
+                println("retweeted")
+            } else {
+                println(error)
+                println("Could not save the tweets")
+            }
+        }
+    }
 }
