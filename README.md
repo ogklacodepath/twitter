@@ -39,6 +39,6 @@ Walkthrough
 
 
 
-![Video Walkthrough](twitter2.gif)
+![Video Walkthrough](twitter3.gif)
 
 GIF created using ffmpeg
